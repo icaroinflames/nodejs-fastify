@@ -1,0 +1,10 @@
+node_modules/
+Dockerfile
+init.sql
+
+.vscode/
+
+node-pg.code-workspace
+#si comentamos esto el contenido de la bbdd también se copia y creamos persistencia en local
+postgres-docker/db-data/
+

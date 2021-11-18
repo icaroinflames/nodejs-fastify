@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  api:
+    container_name: api-fastify
+    build: .
+    image: node-fastify:0.1
+    ports:
+      - 3000:3000
+    depends_on:
+      - database
+    restart: unless-stopped
+
+  database:
+    container_name: postgres_db-fastify
+    build: ./postgres-docker
+    image: pg-fastify-database:0.1
+    volumes:
+      - ./postgres-docker/db-data:/var/lib/postgresql/data
+    ports:
+      - 4322:5432
+    environment:
+      POSTGRES_DB: prueba-docker
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: admin
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin-fastify
+    image: dpage/pgadmin4:6.1
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: secret
+      PGADMIN_LISTEN_PORT: 5050
+    ports:
+      - 5051:5050
+    depends_on:
+      - database
+
+
